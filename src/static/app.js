@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryFilters = document.querySelectorAll(".category-filter");
   const dayFilters = document.querySelectorAll(".day-filter");
   const timeFilters = document.querySelectorAll(".time-filter");
+  const difficultyFilters = document.querySelectorAll(".difficulty-filter");
 
   // Authentication elements
   const loginButton = document.getElementById("login-button");
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
+  let currentDifficulty = "";
 
   // Authentication state
   let currentUser = null;
@@ -436,6 +438,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
+      // Handle difficulty filter
+      if (currentDifficulty) {
+        queryParams.push(`difficulty=${encodeURIComponent(currentDifficulty)}`);
+      }
+
       const queryString =
         queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
       const response = await fetch(`/activities${queryString}`);
@@ -550,6 +557,22 @@ document.addEventListener("DOMContentLoaded", () => {
       </span>
     `;
 
+    // Create difficulty badge if difficulty is specified
+    // Validate difficulty against allowed values to prevent XSS
+    const allowedDifficulties = ["Beginner", "Intermediate", "Advanced"];
+    // Explicit class mapping for security - prevents injection via dynamic string construction
+    const difficultyClassMap = {
+      "Beginner": "beginner",
+      "Intermediate": "intermediate",
+      "Advanced": "advanced"
+    };
+    
+    const difficultyBadge = details.difficulty && allowedDifficulties.includes(details.difficulty) ? `
+      <span class="difficulty-badge difficulty-${difficultyClassMap[details.difficulty]}">
+        ${details.difficulty}
+      </span>
+    ` : "";
+
     // Create capacity indicator
     const capacityIndicator = `
       <div class="capacity-container ${capacityStatusClass}">
@@ -564,7 +587,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     activityCard.innerHTML = `
-      ${tagHtml}
+      <div class="activity-tags-container">
+        ${tagHtml}
+        ${difficultyBadge}
+      </div>
       <h4>${name}</h4>
       <p>${details.description}</p>
       <p class="tooltip">
@@ -730,6 +756,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update current time filter and fetch activities
       currentTimeRange = button.dataset.time;
+      fetchActivities();
+    });
+  });
+
+  // Add event listeners for difficulty filter buttons
+  difficultyFilters.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Update active class
+      difficultyFilters.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Update current difficulty filter and fetch activities
+      currentDifficulty = button.dataset.difficulty;
       fetchActivities();
     });
   });
