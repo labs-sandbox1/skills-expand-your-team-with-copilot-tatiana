@@ -363,6 +363,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return "academic";
   }
 
+  // Helper function to escape HTML attributes
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Function to fetch activities from API with optional day and time filters
   async function fetchActivities() {
     // Show loading skeletons first
@@ -552,6 +559,17 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("")}
         </ul>
       </div>
+      <div class="social-sharing">
+        <button class="share-button share-twitter" title="Share on Twitter" aria-label="Share ${escapeHtml(name)} on Twitter">
+          <span class="share-icon" aria-hidden="true">🐦</span>
+        </button>
+        <button class="share-button share-facebook" title="Share on Facebook" aria-label="Share ${escapeHtml(name)} on Facebook">
+          <span class="share-icon" aria-hidden="true">📘</span>
+        </button>
+        <button class="share-button share-email" title="Share via Email" aria-label="Share ${escapeHtml(name)} via Email">
+          <span class="share-icon" aria-hidden="true">✉️</span>
+        </button>
+      </div>
       <div class="activity-card-actions">
         ${
           currentUser
@@ -587,7 +605,45 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    // Add click handlers for social sharing buttons
+    const shareTwitterBtn = activityCard.querySelector(".share-twitter");
+    const shareFacebookBtn = activityCard.querySelector(".share-facebook");
+    const shareEmailBtn = activityCard.querySelector(".share-email");
+
+    shareTwitterBtn.addEventListener("click", () => {
+      shareOnTwitter(name, details.description, formattedSchedule);
+    });
+
+    shareFacebookBtn.addEventListener("click", () => {
+      shareOnFacebook(name, details.description, formattedSchedule);
+    });
+
+    shareEmailBtn.addEventListener("click", () => {
+      shareViaEmail(name, details.description, formattedSchedule);
+    });
+
     activitiesList.appendChild(activityCard);
+  }
+
+  // Social sharing functions
+  function shareOnTwitter(activityName, description, schedule) {
+    const text = `Check out ${activityName} at Mergington High School! ${description} Schedule: ${schedule}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+    window.open(twitterUrl, "_blank", "width=600,height=400");
+  }
+
+  // Note: Facebook's sharer only accepts URL parameter, but we keep the same
+  // signature as other share functions for consistency (parameters prefixed with _ to indicate intentionally unused)
+  function shareOnFacebook(_activityName, _description, _schedule) {
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+    window.open(facebookUrl, "_blank", "width=600,height=400");
+  }
+
+  function shareViaEmail(activityName, description, schedule) {
+    const subject = `Check out ${activityName} at Mergington High School`;
+    const body = `Hi!\n\nI wanted to share this exciting extracurricular activity with you:\n\nActivity: ${activityName}\nDescription: ${description}\nSchedule: ${schedule}\n\nVisit our website to learn more and register: ${window.location.href}\n\nBest regards`;
+    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoUrl);
   }
 
   // Event listeners for search and filter
