@@ -621,16 +621,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Social sharing functions
   function shareOnTwitter(activityName, description, schedule) {
     const text = `Check out ${activityName} at Mergington High School! ${description} Schedule: ${schedule}`;
-    const url = encodeURIComponent(window.location.href);
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
     window.open(twitterUrl, "_blank", "width=600,height=400");
   }
 
   // Note: Facebook's sharer only accepts URL parameter, but we keep the same
   // signature as other share functions for consistency
   function shareOnFacebook(activityName, description, schedule) {
-    const url = encodeURIComponent(window.location.href);
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
     window.open(facebookUrl, "_blank", "width=600,height=400");
   }
 
