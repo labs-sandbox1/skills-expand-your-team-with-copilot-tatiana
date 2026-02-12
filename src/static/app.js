@@ -499,6 +499,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
 
+    // Helper function to escape HTML attributes
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     // Create activity tag
     const tagHtml = `
       <span class="activity-tag" style="background-color: ${typeInfo.color}; color: ${typeInfo.textColor}">
@@ -553,13 +560,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </ul>
       </div>
       <div class="social-sharing">
-        <button class="share-button share-twitter" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Twitter" aria-label="Share ${name} on Twitter">
+        <button class="share-button share-twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter" aria-label="Share ${escapeHtml(name)} on Twitter">
           <span class="share-icon" aria-hidden="true">🐦</span>
         </button>
-        <button class="share-button share-facebook" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Facebook" aria-label="Share ${name} on Facebook">
+        <button class="share-button share-facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook" aria-label="Share ${escapeHtml(name)} on Facebook">
           <span class="share-icon" aria-hidden="true">📘</span>
         </button>
-        <button class="share-button share-email" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share via Email" aria-label="Share ${name} via Email">
+        <button class="share-button share-email" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email" aria-label="Share ${escapeHtml(name)} via Email">
           <span class="share-icon" aria-hidden="true">✉️</span>
         </button>
       </div>
