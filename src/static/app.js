@@ -516,6 +516,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create difficulty badge if difficulty is specified
     // Validate difficulty against allowed values to prevent XSS
     const allowedDifficulties = ["Beginner", "Intermediate", "Advanced"];
+    // Explicit class mapping for security - prevents injection via dynamic string construction
     const difficultyClassMap = {
       "Beginner": "beginner",
       "Intermediate": "intermediate",
