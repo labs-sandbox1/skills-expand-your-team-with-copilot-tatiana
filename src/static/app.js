@@ -643,7 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const subject = `Check out ${activityName} at Mergington High School`;
     const body = `Hi!\n\nI wanted to share this exciting extracurricular activity with you:\n\nActivity: ${activityName}\nDescription: ${description}\nSchedule: ${schedule}\n\nVisit our website to learn more and register: ${window.location.href}\n\nBest regards`;
     const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoUrl;
+    window.open(mailtoUrl);
   }
 
   // Event listeners for search and filter
