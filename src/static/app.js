@@ -553,14 +553,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </ul>
       </div>
       <div class="social-sharing">
-        <button class="share-button share-twitter" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Twitter">
-          <span class="share-icon">🐦</span>
+        <button class="share-button share-twitter" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Twitter" aria-label="Share ${name} on Twitter">
+          <span class="share-icon" aria-hidden="true">🐦</span>
         </button>
-        <button class="share-button share-facebook" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Facebook">
-          <span class="share-icon">📘</span>
+        <button class="share-button share-facebook" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Facebook" aria-label="Share ${name} on Facebook">
+          <span class="share-icon" aria-hidden="true">📘</span>
         </button>
-        <button class="share-button share-email" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share via Email">
-          <span class="share-icon">✉️</span>
+        <button class="share-button share-email" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share via Email" aria-label="Share ${name} via Email">
+          <span class="share-icon" aria-hidden="true">✉️</span>
         </button>
       </div>
       <div class="activity-card-actions">
@@ -626,6 +626,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(twitterUrl, "_blank", "width=600,height=400");
   }
 
+  // Note: Facebook's sharer only accepts URL parameter, but we keep the same
+  // signature as other share functions for consistency
   function shareOnFacebook(activityName, description, schedule) {
     const url = encodeURIComponent(window.location.href);
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
