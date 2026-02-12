@@ -363,6 +363,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return "academic";
   }
 
+  // Helper function to escape HTML attributes
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Function to fetch activities from API with optional day and time filters
   async function fetchActivities() {
     // Show loading skeletons first
@@ -499,13 +506,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
 
-    // Helper function to escape HTML attributes
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
     // Create activity tag
     const tagHtml = `
       <span class="activity-tag" style="background-color: ${typeInfo.color}; color: ${typeInfo.textColor}">
@@ -560,13 +560,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </ul>
       </div>
       <div class="social-sharing">
-        <button class="share-button share-twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter" aria-label="Share ${escapeHtml(name)} on Twitter">
+        <button class="share-button share-twitter" title="Share on Twitter" aria-label="Share ${escapeHtml(name)} on Twitter">
           <span class="share-icon" aria-hidden="true">🐦</span>
         </button>
-        <button class="share-button share-facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook" aria-label="Share ${escapeHtml(name)} on Facebook">
+        <button class="share-button share-facebook" title="Share on Facebook" aria-label="Share ${escapeHtml(name)} on Facebook">
           <span class="share-icon" aria-hidden="true">📘</span>
         </button>
-        <button class="share-button share-email" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email" aria-label="Share ${escapeHtml(name)} via Email">
+        <button class="share-button share-email" title="Share via Email" aria-label="Share ${escapeHtml(name)} via Email">
           <span class="share-icon" aria-hidden="true">✉️</span>
         </button>
       </div>
@@ -633,8 +633,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Note: Facebook's sharer only accepts URL parameter, but we keep the same
-  // signature as other share functions for consistency
-  function shareOnFacebook(activityName, description, schedule) {
+  // signature as other share functions for consistency (parameters prefixed with _ to indicate intentionally unused)
+  function shareOnFacebook(_activityName, _description, _schedule) {
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
     window.open(facebookUrl, "_blank", "width=600,height=400");
   }
