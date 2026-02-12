@@ -711,12 +711,3 @@ footer {
 #dark-mode-toggle .theme-icon {
   font-size: 1.1rem;
 }
-
-body.dark-mode #dark-mode-toggle .theme-icon {
-  content: "☀️";
-}
-
-body.dark-mode #dark-mode-toggle .theme-icon::before {
-  content: "☀️";
-  position: absolute;
-}
