@@ -516,8 +516,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create difficulty badge if difficulty is specified
     // Validate difficulty against allowed values to prevent XSS
     const allowedDifficulties = ["Beginner", "Intermediate", "Advanced"];
+    const difficultyClassMap = {
+      "Beginner": "beginner",
+      "Intermediate": "intermediate",
+      "Advanced": "advanced"
+    };
+    
     const difficultyBadge = details.difficulty && allowedDifficulties.includes(details.difficulty) ? `
-      <span class="difficulty-badge difficulty-${details.difficulty.toLowerCase()}">
+      <span class="difficulty-badge difficulty-${difficultyClassMap[details.difficulty]}">
         ${details.difficulty}
       </span>
     ` : "";
